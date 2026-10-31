@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1, h2, h3 { @apply font-display font-extrabold leading-none tracking-tight; }
+  :focus-visible { outline: 3px solid #D7262E; outline-offset: 2px; }
+}
+
+@layer components {
+  .page-title { @apply font-display text-4xl italic uppercase text-brand; }
+  .eyebrow { @apply font-mono text-[11px] uppercase tracking-[0.14em] text-muted; }
+  .card { @apply rounded-xl border border-line bg-white; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply btn bg-brand text-white hover:bg-brand-deep; }
+  .btn-red { @apply btn bg-bomb-red text-white hover:brightness-95; }
+  .btn-ghost { @apply btn border border-line bg-white text-ink hover:bg-brand-soft; }
+  .field { @apply flex flex-col gap-1 text-sm; }
+  .field > span { @apply font-medium text-muted; }
+  .input { @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20; }
+  .tbl { @apply w-full border-collapse text-sm; }
+  .tbl th { @apply border-b border-line px-3 py-2 text-left font-mono text-[11px] font-medium uppercase tracking-wider text-muted; }
+  .tbl td { @apply border-b border-line px-3 py-2.5 tabular-nums; }
+  .pill { @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-semibold; }
+  .pill::before { content: ""; @apply h-1.5 w-1.5 rounded-full bg-current; }
+  .pill-ok { @apply pill bg-ok/10 text-ok; }
+  .pill-bad { @apply pill bg-bad/10 text-bad; }
+  .pill-warn { @apply pill bg-warn/10 text-warn; }
+  .pill-info { @apply pill bg-brand-soft text-brand; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

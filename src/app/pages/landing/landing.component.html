@@ -1,0 +1,362 @@
+<div class="lp">
+<header class="hdr dark" id="hdr">
+  <div class="wrap">
+    <a class="logo" href="#xray" aria-label="Bombase Diesel, início">
+      <span class="stripes" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="logo-mark"><span class="logo-word">BOMBASE</span><span class="logo-sub">DIESEL</span></span>
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#modulos">Módulos</a><a href="#ciclo">Ordens de serviço</a><a href="#rn02">Liquidação</a><a href="#liquidez">Liquidez D+1</a><a href="#seguranca">Segurança</a>
+    </nav>
+    <a routerLink="/login" class="lp-btn red">Entrar no sistema</a>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<!-- ================= RAIO-X ================= -->
+<section class="pin" id="xray" data-pin="xray" aria-label="Raio-x do caminhão">
+  <div class="stage">
+    <div class="xr-inner">
+      <div class="xr-view">
+        <div class="xr-title" id="xrTitle">
+          <p class="lp-eyebrow" style="color:var(--xr-line)">ERP · Oficina de injeção diesel</p>
+          <h1>Veja o caminhão <em>por dentro</em></h1>
+          <p>Cada peça da bomba ao eixo tem uma OS, um item de estoque e um título no financeiro. Role a página para escanear.</p>
+          <span class="xr-hint"><i></i>Role para iniciar o raio-x</span>
+        </div>
+
+        <svg class="xr-svg" viewBox="0 0 1200 440" role="img" aria-labelledby="truckT">
+          <title id="truckT">Cavalo mecânico Scania R450 em vista lateral, revelado em raio-x com bomba, bicos injetores, filtro e eixos marcados</title>
+          <defs>
+            <linearGradient id="gCab" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A5BB0"/><stop offset=".55" stop-color="#0F4791"/><stop offset="1" stop-color="#0A2E5C"/></linearGradient>
+            <linearGradient id="gGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A5F8C"/><stop offset=".5" stop-color="#0B1A30"/><stop offset="1" stop-color="#14304F"/></linearGradient>
+            <linearGradient id="gSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4EAF2"/><stop offset=".5" stop-color="#9AA8BA"/><stop offset="1" stop-color="#5E6B7D"/></linearGradient>
+            <linearGradient id="gScan" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7FE3FF" stop-opacity="0"/><stop offset=".85" stop-color="#7FE3FF" stop-opacity=".35"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".95"/></linearGradient>
+            <filter id="glow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <clipPath id="clipX"><rect id="clipXr" x="0" y="-40" width="0" height="520"/></clipPath>
+            <clipPath id="clipE"><rect id="clipEr" x="0" y="-40" width="1200" height="520"/></clipPath>
+            <g id="wheel">
+              <circle r="50" fill="#0E1116"/><circle r="31" fill="url(#gSteel)"/><circle r="22" fill="#4A5566"/><circle r="9" fill="#C9D2DE"/>
+            </g>
+            <g id="wheelX">
+              <circle r="50" fill="none" stroke="#7FE3FF" stroke-width="1.6"/><circle r="38" fill="none" stroke="rgba(127,227,255,.35)" stroke-width="1" stroke-dasharray="5 6"/><circle r="30" fill="none" stroke="#7FE3FF" stroke-width="1.6"/><circle r="9" fill="rgba(127,227,255,.08)" stroke="#7FE3FF" stroke-width="1.6"/>
+              <g fill="none" stroke="rgba(127,227,255,.35)" stroke-width="1"><line x1="0" y1="-30" x2="0" y2="30"/><line x1="-30" y1="0" x2="30" y2="0"/><line x1="-21" y1="-21" x2="21" y2="21"/><line x1="-21" y1="21" x2="21" y2="-21"/></g>
+            </g>
+          </defs>
+
+          <g class="cam" id="cam">
+            <!-- ground -->
+            <line x1="40" y1="400" x2="1160" y2="400" stroke="rgba(127,227,255,.25)" stroke-width="1"/>
+            <ellipse cx="600" cy="404" rx="520" ry="8" fill="rgba(0,0,0,.45)"/>
+
+            <!-- ===== EXTERIOR ===== -->
+            <g class="ext" clip-path="url(#clipE)">
+              <rect x="150" y="298" width="955" height="20" rx="3" fill="#1A2230"/>
+              <rect x="1086" y="290" width="18" height="30" rx="3" fill="#2A3445"/><rect x="1090" y="296" width="10" height="8" fill="#D7262E"/>
+              <rect x="880" y="282" width="120" height="16" rx="3" fill="#2A3445"/>
+              <path d="M808,314 A62,62 0 0 1 932,314 L932,322 L808,322 Z" fill="#1A2230"/>
+              <path d="M928,314 A62,62 0 0 1 1052,314 L1052,322 L928,322 Z" fill="#1A2230"/>
+              <rect x="630" y="312" width="120" height="38" rx="10" fill="url(#gSteel)"/>
+              <rect x="420" y="306" width="190" height="62" rx="16" fill="url(#gSteel)"/>
+              <rect x="430" y="314" width="170" height="3" fill="rgba(255,255,255,.6)"/>
+              <rect x="388" y="66" width="12" height="236" rx="3" fill="url(#gSteel)"/>
+              <path class="body" d="M118,302 V128 Q118,54 170,46 L352,38 Q380,38 382,66 V302 Z"/>
+              <path d="M170,46 L192,14 L346,10 Q372,10 376,36 L352,38 Z" fill="#0A2E5C"/>
+              <path d="M150,96 H262 V176 H150 Q144,176 144,170 V104 Q144,96 150,96 Z" fill="url(#gGlass)"/>
+              <path d="M118,86 Q122,60 150,56 L150,176 L118,176 Z" fill="url(#gGlass)" opacity=".85"/>
+              <path d="M140,92 H292 V292 H140 Z" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+              <rect x="270" y="196" width="16" height="5" rx="2" fill="#C9D2DE"/>
+              <rect x="118" y="206" width="264" height="12" fill="#D7262E"/>
+              <rect x="118" y="222" width="264" height="4" fill="#D7262E" opacity=".7"/>
+              <text x="160" y="254" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-style="italic" font-weight="800" font-size="30" fill="#fff">BOMBASE</text>
+              <text x="162" y="270" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-style="italic" font-weight="700" font-size="11" letter-spacing="5" fill="#FF8A8F">DIESEL</text>
+              <rect x="104" y="250" width="22" height="58" rx="4" fill="#1A2230"/>
+              <rect x="106" y="232" width="14" height="14" rx="3" fill="#FFF6D6"/>
+              <rect x="146" y="296" width="28" height="6" fill="#2A3445"/><rect x="146" y="282" width="28" height="5" fill="#2A3445"/>
+              <path d="M186,316 A64,64 0 0 1 314,316 L314,322 L186,322 Z" fill="#0A2E5C"/>
+              <use href="#wheel" x="250" y="350"/><use href="#wheel" x="870" y="350"/><use href="#wheel" x="990" y="350"/>
+            </g>
+
+            <!-- ===== RAIO-X ===== -->
+            <g class="xr-glow" clip-path="url(#clipX)">
+              <!-- cab -->
+              <path class="x dash" d="M118,302 V128 Q118,54 170,46 L352,38 Q380,38 382,66 V302 Z"/>
+              <path class="x thin" d="M170,46 L192,14 L346,10 Q372,10 376,36"/>
+              <path class="x thin" d="M150,96 H262 V176 H150 Z"/>
+              <!-- driver & wheel -->
+              <circle cx="236" cy="118" r="11" class="x thin"/>
+              <path class="x thin" d="M232,130 L250,178 L292,178 M250,178 L254,196"/>
+              <ellipse cx="196" cy="160" rx="5" ry="18" class="x thin" transform="rotate(-30 196 160)"/>
+              <rect x="292" y="132" width="22" height="12" rx="2" class="xf"/><text x="318" y="142" class="xtxt">VIN</text>
+              <!-- radiator -->
+              <rect x="124" y="186" width="14" height="108" class="xf"/>
+              <g class="x thin"><line x1="124" y1="200" x2="138" y2="200"/><line x1="124" y1="216" x2="138" y2="216"/><line x1="124" y1="232" x2="138" y2="232"/><line x1="124" y1="248" x2="138" y2="248"/><line x1="124" y1="264" x2="138" y2="264"/><line x1="124" y1="280" x2="138" y2="280"/></g>
+              <!-- engine -->
+              <rect x="165" y="200" width="190" height="96" rx="6" class="xf"/>
+              <g class="x thin"><circle cx="186" cy="238" r="11"/><circle cx="216" cy="238" r="11"/><circle cx="246" cy="238" r="11"/><circle cx="276" cy="238" r="11"/><circle cx="306" cy="238" r="11"/><circle cx="336" cy="238" r="11"/></g>
+              <line x1="168" y1="190" x2="352" y2="190" class="x" stroke-width="4"/>
+              <g class="xh"><rect x="183" y="190" width="6" height="34" rx="2"/><rect x="213" y="190" width="6" height="34" rx="2"/><rect x="243" y="190" width="6" height="34" rx="2"/><rect x="273" y="190" width="6" height="34" rx="2"/><rect x="303" y="190" width="6" height="34" rx="2"/><rect x="333" y="190" width="6" height="34" rx="2"/></g>
+              <circle cx="200" cy="274" r="15" class="xh"/><circle cx="200" cy="274" r="5" class="x"/>
+              <path d="M200,259 C200,230 176,214 176,190" class="flow"/>
+              <circle cx="366" cy="214" r="14" class="x"/><path class="x thin" d="M366,214 m-8,0 a8,8 0 1 1 8,8"/>
+              <text x="170" y="316" class="xtxt">DC13 · 450 CV</text>
+              <!-- gearbox + filter -->
+              <path class="xf" d="M356,252 H402 L398,294 H360 Z"/>
+              <rect x="410" y="230" width="16" height="42" rx="7" class="xh"/>
+              <path d="M440,330 C426,330 418,300 418,272" class="flow"/>
+              <path d="M418,230 C418,212 300,300 215,276" class="flow"/>
+              <!-- chassis -->
+              <g class="x"><line x1="150" y1="300" x2="1104" y2="300"/><line x1="150" y1="318" x2="1104" y2="318"/></g>
+              <g class="x thin"><line x1="440" y1="300" x2="440" y2="318"/><line x1="560" y1="300" x2="560" y2="318"/><line x1="680" y1="300" x2="680" y2="318"/><line x1="800" y1="300" x2="800" y2="318"/><line x1="930" y1="300" x2="930" y2="318"/><line x1="1050" y1="300" x2="1050" y2="318"/></g>
+              <!-- tank -->
+              <rect x="420" y="306" width="190" height="62" rx="16" class="x dash"/>
+              <rect x="424" y="334" width="182" height="30" rx="10" fill="rgba(127,227,255,.16)"/>
+              <text x="470" y="328" class="xtxt">DIESEL S10 · 62%</text>
+              <!-- air tanks -->
+              <rect x="634" y="314" width="52" height="34" rx="14" class="x thin"/><rect x="694" y="314" width="52" height="34" rx="14" class="x thin"/>
+              <!-- driveline -->
+              <line x1="400" y1="288" x2="852" y2="344" class="x" stroke-width="3"/>
+              <line x1="888" y1="350" x2="972" y2="350" class="x" stroke-width="3"/>
+              <circle cx="870" cy="350" r="18" class="xh"/><circle cx="990" cy="350" r="18" class="xh"/>
+              <!-- fifth wheel + springs -->
+              <rect x="880" y="282" width="120" height="16" rx="3" class="x thin"/>
+              <path class="x thin" d="M200,318 Q250,306 300,318 M820,318 Q870,306 920,318 M940,318 Q990,306 1040,318"/>
+              <use href="#wheelX" x="250" y="350"/><use href="#wheelX" x="870" y="350"/><use href="#wheelX" x="990" y="350"/>
+              <!-- ruler -->
+              <g class="x thin"><line x1="118" y1="420" x2="1104" y2="420"/>
+                <line x1="118" y1="414" x2="118" y2="426"/><line x1="368" y1="416" x2="368" y2="424"/><line x1="618" y1="416" x2="618" y2="424"/><line x1="868" y1="416" x2="868" y2="424"/><line x1="1104" y1="414" x2="1104" y2="426"/></g>
+              <text x="118" y="438" class="xtxt">0</text><text x="600" y="438" class="xtxt">3.500 mm</text><text x="1060" y="438" class="xtxt">7.150 mm</text>
+            </g>
+
+            <!-- scan beam -->
+            <g id="beam" opacity="0"><rect id="beamR" x="-120" y="-20" width="120" height="460" class="scanline"/><line id="beamL" x1="0" y1="-20" x2="0" y2="440" stroke="#fff" stroke-width="2"/></g>
+
+            <!-- hotspots -->
+            <g class="hots" id="hots">
+              <g class="hot" data-i="0" transform="translate(303 138)"><circle class="ring" r="14"/><circle class="dot" r="14"/><text>1</text></g>
+              <g class="hot" data-i="1" transform="translate(200 274)"><circle class="ring" r="14"/><circle class="dot" r="14"/><text>2</text></g>
+              <g class="hot" data-i="2" transform="translate(258 196)"><circle class="ring" r="14"/><circle class="dot" r="14"/><text>3</text></g>
+              <g class="hot" data-i="3" transform="translate(418 251)"><circle class="ring" r="14"/><circle class="dot" r="14"/><text>4</text></g>
+              <g class="hot" data-i="4" transform="translate(930 350)"><circle class="ring" r="14"/><circle class="dot" r="14"/><text>5</text></g>
+            </g>
+          </g>
+        </svg>
+
+        <div class="hud" aria-hidden="true">
+          <span>SCAN <b id="scanPct">0%</b></span><span>SCANIA R450 · <b>ABC-1D23</b></span><span>HODÔMETRO <b>530.990 km</b></span><span>OS ABERTA <b>#1029</b></span>
+        </div>
+        <div class="outro" id="outro"><h2>Do pátio à tesouraria</h2><p>Um sistema só para a oficina inteira.</p></div>
+      </div>
+
+      <ol class="parts" id="parts" aria-label="Peças escaneadas e módulos do sistema">
+        <li><div class="k"><span>01 · Cabine / VIN</span><span>Veículos</span></div><h3>Clientes e frota</h3><p>Chassi, placa, motor e hodômetro vinculados ao frotista.</p><div class="data">9BSR6X400M3912345 · Transportes Sul Ltda</div></li>
+        <li><div class="k"><span>02 · Bomba de alta</span><span>OS</span></div><h3>Ordem de serviço</h3><p>Abertura, apontamento de horas e status até o faturamento.</p><div class="data">OS #1029 · Bomba injetora, revisão completa · Em andamento</div></li>
+        <li><div class="k"><span>03 · Bicos injetores</span><span>Estoque</span></div><h3>Peças em tempo real</h3><p>Baixa automática por OS, custo, margem e preço de venda.</p><div class="data">BI-0445 · Bosch 0445120 · 6 un / mín 4</div></li>
+        <li><div class="k"><span>04 · Filtro de combustível</span><span>Compras</span></div><h3>Alerta de mínimo</h3><p>Estoque abaixo do mínimo vira compra; a NF-e de entrada gera o título a pagar.</p><div class="data">FC-1060 · MANN WK 1060/3 · 4 un / mín 10</div></li>
+        <li><div class="k"><span>05 · Eixos traseiros</span><span>Financeiro</span></div><h3>Fatura e liquidação</h3><p>OS concluída vira título; a baixa cai no banco certo com cálculo D+1.</p><div class="data">Título OS #1029 · Sicoob · R$ 6.200,00 bruto</div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTRO ================= -->
+<section class="band">
+  <div class="wrap lead reveal">
+    <div>
+      <p class="lp-eyebrow">ERP · CRM · Financeiro</p>
+      <h2 style="margin-top:12px">Gestão para quem <span>vive de diesel</span></h2>
+    </div>
+    <p>A Bombase cuida de bombas, bicos e frotas pesadas. O sistema acompanha o mesmo caminho do caminhão: recepção, diagnóstico, peças, mão de obra, fatura e o dinheiro entrando na conta certa no dia certo.</p>
+  </div>
+</section>
+
+<!-- ================= MÓDULOS (horizontal) ================= -->
+<section class="pin" id="modulos" data-pin="rail" aria-label="Telas do sistema">
+  <div class="stage">
+    <div class="wrap rail-head">
+      <div><p class="lp-eyebrow">29 telas · 7 áreas</p><h2>O sistema por dentro</h2></div>
+      <span class="rail-count mono" id="railCount"><b>01</b> / 06</span>
+    </div>
+    <div class="track" id="track">
+      <article class="screen">
+        <div class="screen-top"><span class="lp-eyebrow">03 · Painel</span><span class="crumb">Hoje, 09:12</span></div>
+        <div class="screen-body">
+          <h3>Bem-vindo, Henrique!</h3>
+          <div class="kpis">
+            <div class="kpi"><small>Faturamento do mês</small><b>R$ 182.400,00</b></div>
+            <div class="kpi"><small>A receber</small><b>R$ 54.870,00</b></div>
+            <div class="kpi"><small>Saldo consolidado</small><b>R$ 248.915,42</b></div>
+            <div class="kpi"><small>OS abertas</small><b>16</b></div>
+          </div>
+          <div class="minibars" aria-hidden="true"><i style="height:55%"></i><i style="height:38%"></i><i style="height:70%"></i><i style="height:42%"></i><i style="height:62%"></i><i style="height:50%"></i><i style="height:88%"></i><i style="height:46%"></i><i style="height:76%"></i><i style="height:40%"></i></div>
+          <p class="cap">Receitas e despesas, jun a out · dados de exemplo</p>
+        </div>
+      </article>
+      <article class="screen">
+        <div class="screen-top"><span class="lp-eyebrow">14 · Quadro de OS</span><span class="crumb">Oficina / OS</span></div>
+        <div class="screen-body">
+          <h3>Quadro de OS</h3>
+          <div class="kb">
+            <div class="kb-col"><span>Aberto</span><div class="kb-card"><b>OS #1052</b>Scania G440 · PLK-8J76</div><div class="kb-card"><b>OS #1047</b>Volvo FH 540</div></div>
+            <div class="kb-col"><span>Em andamento</span><div class="kb-card"><b>OS #1029</b>Bomba injetora, revisão</div><div class="kb-card"><b>OS #1040</b>Diagnóstico ABS</div></div>
+            <div class="kb-col"><span>Aguard. peças</span><div class="kb-card"><b>OS #1036</b>Kit embreagem 430 mm</div></div>
+          </div>
+          <p class="cap">Arraste os cards para mudar o status (RF07)</p>
+        </div>
+      </article>
+      <article class="screen">
+        <div class="screen-top"><span class="lp-eyebrow">10 · Estoque de peças</span><span class="crumb">Estoque</span></div>
+        <div class="screen-body">
+          <h3>Estoque</h3>
+          <table class="lp-tbl"><thead><tr><th>SKU</th><th>Peça</th><th class="r">Saldo</th><th>Situação</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">BI-0445</td><td>Bico injetor Bosch</td><td class="r mono">6 / 4</td><td><span class="lp-pill ok">OK</span></td></tr>
+              <tr><td class="mono">FC-1060</td><td>Filtro comb. MANN</td><td class="r mono">4 / 10</td><td><span class="lp-pill bad">Mínimo</span></td></tr>
+              <tr><td class="mono">AN-22</td><td>Anel vedação 22 mm</td><td class="r mono">16 / 10</td><td><span class="lp-pill ok">OK</span></td></tr>
+              <tr><td class="mono">KT-430</td><td>Kit embreagem</td><td class="r mono">1 / 2</td><td><span class="lp-pill warn">Baixo</span></td></tr>
+            </tbody></table>
+        </div>
+      </article>
+      <article class="screen">
+        <div class="screen-top"><span class="lp-eyebrow">20 · Liquidação de título</span><span class="crumb">Financeiro</span></div>
+        <div class="screen-body">
+          <h3>OS #1029</h3>
+          <div>
+            <div class="row"><span>Valor bruto</span><span class="v">R$ 6.200,00</span></div>
+            <div class="row"><span>Desconto</span><span class="v">− R$ 150,00</span></div>
+            <div class="row"><span>Juros/Multa</span><span class="v">+ R$ 128,09</span></div>
+            <div class="row"><span>Taxa boleto (Sicoob)</span><span class="v">− R$ 2,90</span></div>
+            <div class="row total"><span>Valor líquido (RN02)</span><span class="v">R$ 6.175,19</span></div>
+          </div>
+          <button class="lp-btn" type="button" data-toast="Exemplo: título liquidado na conta Sicoob. Saldo e gráfico D+1 atualizados.">Confirmar liquidação</button>
+        </div>
+      </article>
+      <article class="screen">
+        <div class="screen-top"><span class="lp-eyebrow">21 · Extrato geral</span><span class="crumb">Financeiro / Extrato</span></div>
+        <div class="screen-body">
+          <h3>Extrato</h3>
+          <table class="lp-tbl"><thead><tr><th>Data</th><th>Lançamento</th><th class="r">Valor</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">26/10</td><td>PIX · OS #1035</td><td class="r mono" style="color:var(--ok)">+ 7.104,40</td></tr>
+              <tr><td class="mono">26/10</td><td>Entrada · NF 18.442</td><td class="r mono" style="color:var(--bad)">− 10.295,80</td></tr>
+              <tr><td class="mono">27/10</td><td>Boleto · OS #1038</td><td class="r mono" style="color:var(--ok)">+ 4.970,55</td></tr>
+              <tr><td class="mono">27/10</td><td>Estorno #T-2281</td><td class="r mono" style="color:var(--bad)">− 412,50</td></tr>
+            </tbody></table>
+          <p class="cap mono">Hash: 9f2c…a71e · anterior: 4b80…d93c</p>
+        </div>
+      </article>
+      <article class="screen">
+        <div class="screen-top"><span class="lp-eyebrow">29 · Pátio (tablet)</span><span class="crumb">Terça, 27/10 · 10:42</span></div>
+        <div class="screen-body">
+          <h3>Apontamento</h3>
+          <p class="cap">OS #1029 · J. Pereira · Diagnóstico eletrônico</p>
+          <div class="tablet-hh">
+            <div class="kpi"><small>Período</small><b>08:10 – 10:40</b></div>
+            <div class="kpi"><small>Horas</small><b>2,5 h</b></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="lp-pill warn">Modo offline</span><span class="lp-pill ok">Ressincroniza em até 3 s</span></div>
+          <button class="lp-btn red" type="button" data-toast="Exemplo: 2,5 h apontadas na OS #1029.">Registrar horas</button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CICLO DA OS ================= -->
+<section class="pin" id="ciclo" data-pin="os" aria-label="Ciclo de vida da OS">
+  <div class="stage">
+    <div class="wrap">
+      <p class="lp-eyebrow">RF07 · Ciclo de vida da OS</p>
+      <h2 style="font-size:clamp(36px,5vw,64px);text-transform:uppercase;font-style:italic;color:var(--brand);margin-top:8px">Da recepção à fatura</h2>
+    </div>
+    <div class="wrap lane-wrap">
+      <div class="lane" id="lane">
+        <div class="stop"><b>Aberto</b><small>Recepção e checklist</small></div>
+        <div class="stop"><b>Em andamento</b><small>Técnico atribuído, HH</small></div>
+        <div class="stop"><b>Aguard. peças</b><small>Requisição ao estoque</small></div>
+        <div class="stop"><b>Qualidade</b><small>Teste em bancada</small></div>
+        <div class="stop"><b>Concluído</b><small>Estoque validado (RN01)</small></div>
+        <div class="stop"><b>Faturado</b><small>Título e NF-e emitidos</small></div>
+      </div>
+      <div class="os-card" id="osCard" aria-live="polite">
+        <div class="lp-eyebrow"><span>OS #1029</span><span id="osStatus">Aberto</span></div>
+        <h4>Scania R450 · ABC-1D23</h4>
+        <p>Bomba injetora, revisão completa · Transportes Sul Ltda</p>
+        <div class="rule" id="osRule"><span class="lp-pill info">Aguardando técnico</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RN02 ================= -->
+<section class="pin" id="rn02" data-pin="eq" aria-label="Equação de liquidação">
+  <div class="stage">
+    <div class="wrap" style="display:grid;gap:28px">
+      <div>
+        <p class="lp-eyebrow">RN02 · Valor efetivamente creditado</p>
+        <h2 style="margin-top:8px">O banco recebe o líquido. O sistema já sabe quanto.</h2>
+      </div>
+      <div class="eq" id="eq">
+        <div class="term"><span class="op">&nbsp;</span><small>Valor bruto</small><b data-v="6200">R$ 6.200,00</b></div>
+        <div class="term"><span class="op">−</span><small>Desconto</small><b data-v="150">R$ 150,00</b></div>
+        <div class="term"><span class="op">+</span><small>Juros/Multa · 2% + 0,033%/dia</small><b data-v="128.09">R$ 128,09</b></div>
+        <div class="term"><span class="op">−</span><small>Taxa bancária · boleto</small><b data-v="2.9">R$ 2,90</b></div>
+        <div class="term res"><span class="op">=</span><small>Valor líquido</small><b id="liq">R$ 6.175,19</b></div>
+      </div>
+      <div class="ctx"><span>Título <b>OS #1029</b></span><span>Vencimento <b>25/10/2026</b> (2 dias em atraso)</span><span>Conta <b>Sicoob Credivale</b></span><span>Transação <b>BEGIN … COMMIT</b></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LIQUIDEZ D+1 ================= -->
+<section class="pin" id="liquidez" data-pin="liq" aria-label="Liquidez D+1">
+  <div class="stage">
+    <div class="wrap" style="display:grid;gap:16px">
+      <div class="liq-head">
+        <div><p class="lp-eyebrow">RF16 · RF17 · Liquidez D+1</p><h2 style="margin-top:8px">Próximos 7 dias úteis</h2></div>
+        <div class="saldo"><small id="saldoLab">Saldo projetado em 02/11</small><b id="saldoV">R$ 260.044,22</b></div>
+      </div>
+      <div class="chart-box"><svg id="chart" viewBox="0 0 760 300" role="img" aria-label="Entradas e saídas previstas por dia"></svg></div>
+      <div class="legend"><span><i style="background:var(--ok)"></i>Entradas compensadas (N+1)</span><span><i style="background:var(--bad)"></i>Obrigações agendadas</span><span class="note">Dados de exemplo · saldo inicial R$ 248.915,42</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SEGURANÇA ================= -->
+<section class="band" id="seguranca">
+  <div class="wrap">
+    <div class="lead reveal">
+      <div><p class="lp-eyebrow">RNF02 · RNF04 · RE01</p><h2 style="margin-top:12px">Dinheiro <span>não se edita</span></h2></div>
+      <p>Lançamento conciliado é imutável. Correção vira estorno com trilha de auditoria encadeada por SHA-256, e cada perfil enxerga só o que precisa.</p>
+    </div>
+    <div class="trust">
+      <div class="reveal"><h3>Trilha SHA-256</h3><p>Cada registro guarda o hash do anterior.</p>
+        <div class="chain"><div><span>#T-2280 LIQUIDADO</span><span>4b80…d93c</span></div><div><span>#T-2281 LIQUIDADO</span><span>9f2c…a71e</span></div><div class="est"><span>#T-2282 ESTORNO</span><span>c51d…08b2</span></div></div></div>
+      <div class="reveal"><h3>Perfis (RBAC)</h3><p>Administrador, Gerente financeiro, Recepção e Técnico de pátio, com JWT.</p>
+        <table class="lp-tbl"><tbody><tr><td>Financeiro</td><td class="r"><span class="lp-pill info">Gerente</span></td></tr><tr><td>Abrir OS</td><td class="r"><span class="lp-pill info">Recepção</span></td></tr><tr><td>Apontar HH</td><td class="r"><span class="lp-pill info">Técnico</span></td></tr></tbody></table></div>
+      <div class="reveal"><h3>Pátio offline</h3><p>Tablets guardam o apontamento em IndexedDB quando o Wi-Fi cai e ressincronizam em até 3 s.</p><span class="lp-pill warn" style="justify-self:start">Sem Wi-Fi · 2 pendentes</span></div>
+      <div class="reveal"><h3>LGPD</h3><p>Dados de condutores anonimizados após o prazo fiscal de 5 anos. Exportação e exclusão sob demanda.</p><div class="code">Consentimento registrado em 27/10/2026 14:32</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section class="band final">
+  <div class="wrap final-grid">
+    <div class="reveal">
+      <p class="lp-eyebrow" style="color:#A9C3E0">Projeto ERP Diesel D+1 · ECOT11A · UNIFEI</p>
+      <h2 style="margin-top:12px">Pronto para <span>abrir a primeira OS</span></h2>
+      <p>Protótipo de navegação do sistema Bombase. Valores e registros são exemplos para demonstração das telas.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px"><a routerLink="/login" class="lp-btn red">Entrar no sistema</a></div>
+      <div class="stack"><span>Next.js</span><span>React</span><span>TailwindCSS</span><span>Recharts</span><span>NestJS</span><span>Prisma</span><span>PostgreSQL</span><span>TypeScript</span></div>
+    </div>
+    <div class="sprints reveal">
+      <div><b>Entrega 1 · Sprints 1 e 2</b><small>CRM, veículos, estoque e faturamento básico de OS</small></div>
+      <div><b>Entrega 2 · Sprints 3 e 4</b><small>Multi-bancário, taxas, matriz D+1, extrato e homologação</small></div>
+      <div><b>276 h estimadas</b><small>8 semanas · 5 integrantes</small></div>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap"><span>Bombase Diesel · Sistema integrado de gestão</span><span>Protótipo · dados de exemplo</span></div></footer>
+
+</div>

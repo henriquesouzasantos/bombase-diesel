@@ -1,0 +1,166 @@
+graph LR
+  n_src_main_ts["src/main.ts"]
+  n_src_app_app_config_ts["src/app/app.config.ts"]
+  n_src_main_ts --> n_src_app_app_config_ts
+  n_src_app_app_component_ts["src/app/app.component.ts"]
+  n_src_main_ts --> n_src_app_app_component_ts
+  n_functions_src_lib_http_ts["functions/src/lib/http.ts"]
+  n_src_app_app_config_ts --> n_functions_src_lib_http_ts
+  n_src_app_app_routes_ts["src/app/app.routes.ts"]
+  n_src_app_app_config_ts --> n_src_app_app_routes_ts
+  n_src_app_core_auth_interceptor_ts["src/app/core/auth.interceptor.ts"]
+  n_src_app_app_config_ts --> n_src_app_core_auth_interceptor_ts
+  n_src_app_core_demo_backend_ts["src/app/core/demo-backend.ts"]
+  n_src_app_app_config_ts --> n_src_app_core_demo_backend_ts
+  n_src_app_core_guards_ts["src/app/core/guards.ts"]
+  n_src_app_app_routes_ts --> n_src_app_core_guards_ts
+  n_src_app_core_toast_component_ts["src/app/core/toast.component.ts"]
+  n_src_app_app_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_shared_status_pill_component_ts["src/app/shared/status-pill.component.ts"]
+  n_src_app_core_models_ts["src/app/core/models.ts"]
+  n_src_app_shared_status_pill_component_ts --> n_src_app_core_models_ts
+  n_src_app_shared_modal_component_ts["src/app/shared/modal.component.ts"]
+  n_src_app_shared_icon_component_ts["src/app/shared/icon.component.ts"]
+  n_src_app_shared_modal_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_layout_shell_component_ts["src/app/layout/shell.component.ts"]
+  n_src_environments_environment_ts["src/environments/environment.ts"]
+  n_src_app_layout_shell_component_ts --> n_src_environments_environment_ts
+  n_src_app_core_auth_service_ts["src/app/core/auth.service.ts"]
+  n_src_app_layout_shell_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_layout_shell_component_ts --> n_src_app_core_models_ts
+  n_src_app_layout_shell_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_shared_logo_component_ts["src/app/shared/logo.component.ts"]
+  n_src_app_layout_shell_component_ts --> n_src_app_shared_logo_component_ts
+  n_src_app_core_auth_interceptor_ts --> n_functions_src_lib_http_ts
+  n_src_app_core_auth_interceptor_ts --> n_src_environments_environment_ts
+  n_src_app_core_auth_interceptor_ts --> n_src_app_core_auth_service_ts
+  n_src_app_core_demo_backend_ts --> n_functions_src_lib_http_ts
+  n_src_app_core_demo_backend_ts --> n_src_environments_environment_ts
+  n_functions_src_lib_auth_ts["functions/src/lib/auth.ts"]
+  n_src_app_core_auth_service_ts --> n_functions_src_lib_auth_ts
+  n_src_app_core_auth_service_ts --> n_src_environments_environment_ts
+  n_src_app_core_auth_service_ts --> n_src_app_core_models_ts
+  n_src_app_core_guards_ts --> n_src_app_core_auth_service_ts
+  n_src_app_core_guards_ts --> n_src_app_core_models_ts
+  n_src_app_core_api_service_ts["src/app/core/api.service.ts"]
+  n_src_app_core_api_service_ts --> n_functions_src_lib_http_ts
+  n_src_app_core_api_service_ts --> n_src_environments_environment_ts
+  n_src_app_core_api_service_ts --> n_src_app_core_models_ts
+  n_src_app_pages_landing_landing_component_ts["src/app/pages/landing/landing.component.ts"]
+  n_src_app_pages_landing_landing_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_landing_landing_scroll_ts["src/app/pages/landing/landing-scroll.ts"]
+  n_src_app_pages_landing_landing_component_ts --> n_src_app_pages_landing_landing_scroll_ts
+  n_src_app_pages_painel_painel_component_ts["src/app/pages/painel/painel.component.ts"]
+  n_src_app_pages_painel_painel_component_ts --> n_src_app_core_api_service_ts
+  n_src_app_pages_painel_painel_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_core_format_ts["src/app/core/format.ts"]
+  n_src_app_pages_painel_painel_component_ts --> n_src_app_core_format_ts
+  n_src_app_pages_painel_painel_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_painel_painel_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_painel_painel_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_pages_painel_painel_component_ts --> n_src_app_shared_status_pill_component_ts
+  n_src_app_pages_veiculos_veiculo_historico_component_ts["src/app/pages/veiculos/veiculo-historico.component.ts"]
+  n_src_app_pages_veiculos_veiculo_historico_component_ts --> n_src_app_core_api_service_ts
+  n_src_app_pages_veiculos_veiculo_historico_component_ts --> n_src_app_core_format_ts
+  n_src_app_pages_veiculos_veiculo_historico_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_veiculos_veiculo_historico_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_veiculos_veiculo_historico_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_pages_veiculos_veiculo_historico_component_ts --> n_src_app_shared_status_pill_component_ts
+  n_src_app_pages_veiculos_veiculos_component_ts["src/app/pages/veiculos/veiculos.component.ts"]
+  n_src_app_pages_veiculos_veiculos_component_ts --> n_src_app_core_api_service_ts
+  n_src_app_pages_veiculos_veiculos_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_pages_veiculos_veiculos_component_ts --> n_src_app_core_format_ts
+  n_src_app_pages_veiculos_veiculos_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_veiculos_veiculos_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_veiculos_veiculos_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_pages_veiculos_veiculos_component_ts --> n_src_app_shared_modal_component_ts
+  n_src_app_pages_clientes_clientes_component_ts["src/app/pages/clientes/clientes.component.ts"]
+  n_src_app_pages_clientes_clientes_component_ts --> n_src_app_core_api_service_ts
+  n_src_app_pages_clientes_clientes_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_pages_clientes_clientes_component_ts --> n_src_app_core_format_ts
+  n_src_app_pages_clientes_clientes_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_clientes_clientes_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_clientes_clientes_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_pages_clientes_clientes_component_ts --> n_src_app_shared_modal_component_ts
+  n_src_app_pages_os_os_quadro_component_ts["src/app/pages/os/os-quadro.component.ts"]
+  n_src_app_pages_os_os_quadro_component_ts --> n_src_app_core_api_service_ts
+  n_src_app_pages_os_os_quadro_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_pages_os_os_quadro_component_ts --> n_src_app_core_format_ts
+  n_src_app_pages_os_os_quadro_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_os_os_quadro_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_os_os_quadro_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_pages_os_os_quadro_component_ts --> n_src_app_shared_modal_component_ts
+  n_src_app_pages_os_os_detalhe_component_ts["src/app/pages/os/os-detalhe.component.ts"]
+  n_src_app_pages_os_os_detalhe_component_ts --> n_src_app_core_api_service_ts
+  n_src_app_pages_os_os_detalhe_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_pages_os_os_detalhe_component_ts --> n_src_app_core_format_ts
+  n_src_app_pages_os_os_detalhe_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_os_os_detalhe_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_os_os_detalhe_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_pages_os_os_detalhe_component_ts --> n_src_app_shared_status_pill_component_ts
+  n_src_app_pages_login_login_component_ts["src/app/pages/login/login.component.ts"]
+  n_src_app_pages_login_login_component_ts --> n_src_environments_environment_ts
+  n_src_app_pages_login_login_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_pages_login_login_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_login_login_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_login_login_component_ts --> n_src_app_shared_logo_component_ts
+  n_src_app_pages_estoque_estoque_component_ts["src/app/pages/estoque/estoque.component.ts"]
+  n_src_app_pages_estoque_estoque_component_ts --> n_src_app_core_api_service_ts
+  n_src_app_pages_estoque_estoque_component_ts --> n_src_app_core_auth_service_ts
+  n_src_app_pages_estoque_estoque_component_ts --> n_src_app_core_format_ts
+  n_src_app_pages_estoque_estoque_component_ts --> n_src_app_core_models_ts
+  n_src_app_pages_estoque_estoque_component_ts --> n_src_app_core_toast_component_ts
+  n_src_app_pages_estoque_estoque_component_ts --> n_src_app_shared_icon_component_ts
+  n_src_app_pages_estoque_estoque_component_ts --> n_src_app_shared_modal_component_ts
+  n_functions_src_index_ts["functions/src/index.ts"]
+  n_functions_src_app_ts["functions/src/app.ts"]
+  n_functions_src_index_ts --> n_functions_src_app_ts
+  n_functions_src_lib_db_ts["functions/src/lib/db.ts"]
+  n_functions_src_index_ts --> n_functions_src_lib_db_ts
+  n_functions_src_models_index_ts["functions/src/models/index.ts"]
+  n_functions_src_index_ts --> n_functions_src_models_index_ts
+  n_functions_src_dev_server_ts["functions/src/dev-server.ts"]
+  n_functions_src_dev_server_ts --> n_functions_src_app_ts
+  n_functions_src_app_ts --> n_functions_src_lib_auth_ts
+  n_functions_src_app_ts --> n_functions_src_lib_db_ts
+  n_functions_src_app_ts --> n_functions_src_lib_http_ts
+  n_functions_src_routes_cadastros_ts["functions/src/routes/cadastros.ts"]
+  n_functions_src_app_ts --> n_functions_src_routes_cadastros_ts
+  n_functions_src_routes_estoque_ts["functions/src/routes/estoque.ts"]
+  n_functions_src_app_ts --> n_functions_src_routes_estoque_ts
+  n_functions_src_routes_os_ts["functions/src/routes/os.ts"]
+  n_functions_src_app_ts --> n_functions_src_routes_os_ts
+  n_functions_src_routes_painel_ts["functions/src/routes/painel.ts"]
+  n_functions_src_app_ts --> n_functions_src_routes_painel_ts
+  n_functions_src_routes_usuarios_ts["functions/src/routes/usuarios.ts"]
+  n_functions_src_app_ts --> n_functions_src_routes_usuarios_ts
+  n_functions_src_lib_auth_ts --> n_functions_src_app_ts
+  n_functions_src_lib_auth_ts --> n_functions_src_lib_http_ts
+  n_functions_src_domain_regras_test_ts["functions/src/domain/regras.test.ts"]
+  n_functions_src_domain_regras_ts["functions/src/domain/regras.ts"]
+  n_functions_src_domain_regras_test_ts --> n_functions_src_domain_regras_ts
+  n_functions_src_routes_cadastros_ts --> n_functions_src_lib_auth_ts
+  n_functions_src_routes_cadastros_ts --> n_functions_src_lib_http_ts
+  n_functions_src_routes_cadastros_ts --> n_functions_src_models_index_ts
+  n_functions_src_routes_painel_ts --> n_functions_src_lib_http_ts
+  n_functions_src_routes_painel_ts --> n_functions_src_models_index_ts
+  n_functions_src_routes_os_ts --> n_functions_src_lib_auth_ts
+  n_functions_src_routes_os_ts --> n_functions_src_lib_db_ts
+  n_functions_src_routes_os_ts --> n_functions_src_lib_http_ts
+  n_functions_src_routes_os_ts --> n_functions_src_models_index_ts
+  n_functions_src_routes_os_ts --> n_functions_src_domain_regras_ts
+  n_functions_src_routes_estoque_ts --> n_functions_src_lib_auth_ts
+  n_functions_src_routes_estoque_ts --> n_functions_src_lib_db_ts
+  n_functions_src_routes_estoque_ts --> n_functions_src_lib_http_ts
+  n_functions_src_routes_estoque_ts --> n_functions_src_models_index_ts
+  n_functions_src_routes_estoque_ts --> n_functions_src_domain_regras_ts
+  n_functions_src_routes_usuarios_ts --> n_functions_src_lib_auth_ts
+  n_functions_src_routes_usuarios_ts --> n_functions_src_lib_auth_ts
+  n_functions_src_routes_usuarios_ts --> n_functions_src_lib_http_ts
+  n_functions_scripts_set_perfil_ts["functions/scripts/set-perfil.ts"]
+  n_functions_scripts_set_perfil_ts --> n_functions_src_app_ts
+  n_functions_scripts_set_perfil_ts --> n_functions_src_lib_auth_ts
+  n_functions_scripts_seed_ts["functions/scripts/seed.ts"]
+  n_functions_scripts_seed_ts --> n_functions_src_lib_db_ts
+  n_functions_scripts_seed_ts --> n_functions_src_models_index_ts
+  n_functions_scripts_seed_ts --> n_functions_src_domain_regras_ts

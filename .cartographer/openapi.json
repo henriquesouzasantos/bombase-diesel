@@ -1,0 +1,37 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Synthetic OpenAPI from cartographer",
+    "version": "synth",
+    "description": "Built from statically detected endpoints. Run the server and use --live-url for richer schemas."
+  },
+  "paths": {
+    "/api": {
+      "use": {
+        "operationId": "use_api",
+        "summary": "",
+        "tags": [
+          "src"
+        ],
+        "x-cartographer": {
+          "handler_id": "",
+          "file": "functions/src/app.ts",
+          "line": 31,
+          "framework": "express"
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "x-cartographer": {
+    "synthetic": true,
+    "endpoint_count": 1,
+    "handler_index": {
+      "USE /api": ""
+    }
+  }
+}

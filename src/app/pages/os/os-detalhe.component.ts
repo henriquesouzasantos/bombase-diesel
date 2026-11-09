@@ -141,7 +141,10 @@ export class OsDetalheComponent implements OnInit {
     try { this.os.set(await fn()); this.toast.ok(ok); } catch (e) { this.toast.erro(mensagemErro(e)); }
   }
 
-  mover(s: StatusOS) { return this.exec(() => this.api.mudarStatus(this.id(), s), `Status alterado para ${this.nomeStatus(s)}.`); }
+  mover(s: StatusOS) {
+    const msg = s === 'FATURADO' ? 'OS faturada. O título a receber já está no financeiro.' : `Status alterado para ${this.nomeStatus(s)}.`;
+    return this.exec(() => this.api.mudarStatus(this.id(), s), msg);
+  }
 
   async addItem() {
     if (!this.itemPeca) return this.toast.erro('Escolha a peça.');

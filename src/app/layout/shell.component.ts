@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../core/auth.service';
-import { PERFIS } from '../core/models';
+import { PERFIS, Perfil } from '../core/models';
 import { IconComponent } from '../shared/icon.component';
 import { LogoComponent } from '../shared/logo.component';
 
@@ -19,12 +19,11 @@ import { LogoComponent } from '../shared/logo.component';
           <button type="button" class="lg:hidden" (click)="aberto.set(false)" aria-label="Fechar menu"><app-icon name="fechar" /></button>
         </div>
         <nav class="mt-4 flex flex-col gap-1 px-3" aria-label="Módulos">
-          @for (m of menu; track m.rota) {
+          @for (m of menu(); track m.rota) {
             <a [routerLink]="m.rota" routerLinkActive="!bg-white/10 !text-white before:!bg-bomb-red"
               (click)="aberto.set(false)"
               class="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-[#A9C3E0] before:absolute before:left-0 before:top-2 before:h-6 before:w-1 before:rounded-r before:bg-transparent hover:bg-white/5 hover:text-white">
               <app-icon [name]="m.icone" /> {{ m.nome }}
-              @if (m.badge) { <span class="ml-auto rounded bg-white/10 px-1.5 text-[10px] uppercase tracking-wide">{{ m.badge }}</span> }
             </a>
           }
         </nav>
@@ -62,12 +61,15 @@ export class ShellComponent {
   demo = environment.demo;
   perfis = PERFIS;
   hoje = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' }).format(new Date());
-  menu = [
+  /** Cada item aparece só para os perfis que podem usar a tela (ADMIN vê tudo). */
+  private itens: { rota: string; nome: string; icone: string; perfis?: Perfil[] }[] = [
     { rota: '/app/painel', nome: 'Painel', icone: 'home' },
     { rota: '/app/os', nome: 'Ordens de serviço', icone: 'chave' },
     { rota: '/app/clientes', nome: 'Clientes', icone: 'usuarios' },
     { rota: '/app/veiculos', nome: 'Veículos', icone: 'caminhao' },
     { rota: '/app/estoque', nome: 'Estoque', icone: 'pacote' },
-    { rota: '/app/financeiro', nome: 'Financeiro', icone: 'carteira', badge: 'E2' },
+    { rota: '/app/financeiro', nome: 'Financeiro', icone: 'carteira', perfis: ['GERENTE_FINANCEIRO'] },
+    { rota: '/app/usuarios', nome: 'Usuários', icone: 'escudo', perfis: [] },
   ];
+  menu = computed(() => this.itens.filter((m) => !m.perfis || this.auth.pode(...m.perfis)));
 }

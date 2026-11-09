@@ -98,7 +98,7 @@ export class OsQuadroComponent implements OnInit {
     if (!o || !TRANSICOES_OS[o.status].includes(destino)) return;
     try {
       await this.api.mudarStatus(o._id!, destino);
-      this.toast.ok(`OS #${o.numero} movida para ${STATUS_OS.find((s) => s.id === destino)!.nome}.`);
+      this.toast.ok(destino === 'FATURADO' ? `OS #${o.numero} faturada. O título a receber já está no financeiro.` : `OS #${o.numero} movida para ${STATUS_OS.find((s) => s.id === destino)!.nome}.`);
     } catch (e) {
       this.toast.erro(mensagemErro(e));
     }

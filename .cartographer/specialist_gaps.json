@@ -1,0 +1,33 @@
+{
+  "gaps": [
+    {
+      "segment": "api@functions",
+      "file_count": 16,
+      "integrations": [
+        "express",
+        "mongo",
+        "jest"
+      ],
+      "directory_prefix": "functions",
+      "assigned_agent": "generalist-reviewer",
+      "score": 0,
+      "reason": "low score (0) \u2014 no specialist matched well",
+      "runners_up": []
+    },
+    {
+      "segment": "src",
+      "file_count": 28,
+      "integrations": [],
+      "directory_prefix": "src",
+      "assigned_agent": "generalist-reviewer",
+      "score": 0,
+      "reason": "low score (0) \u2014 no specialist matched well",
+      "runners_up": []
+    }
+  ],
+  "threshold": 1500,
+  "stats": {
+    "count": 2,
+    "total_segments": 4
+  }
+}

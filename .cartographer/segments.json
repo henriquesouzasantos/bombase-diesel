@@ -1,0 +1,110 @@
+{
+  "segments": [
+    {
+      "name": "src",
+      "files": [
+        "src/app/app.component.ts",
+        "src/app/app.config.ts",
+        "src/app/app.routes.ts",
+        "src/app/core/api.service.ts",
+        "src/app/core/auth.interceptor.ts",
+        "src/app/core/auth.service.ts",
+        "src/app/core/demo-backend.ts",
+        "src/app/core/format.ts",
+        "src/app/core/guards.ts",
+        "src/app/core/models.ts",
+        "src/app/core/toast.component.ts",
+        "src/app/layout/shell.component.ts",
+        "src/app/pages/clientes/clientes.component.ts",
+        "src/app/pages/estoque/estoque.component.ts",
+        "src/app/pages/landing/landing-scroll.ts",
+        "src/app/pages/landing/landing.component.ts",
+        "src/app/pages/login/login.component.ts",
+        "src/app/pages/os/os-detalhe.component.ts",
+        "src/app/pages/os/os-quadro.component.ts",
+        "src/app/pages/painel/painel.component.ts",
+        "src/app/pages/veiculos/veiculo-historico.component.ts",
+        "src/app/pages/veiculos/veiculos.component.ts",
+        "src/app/shared/icon.component.ts",
+        "src/app/shared/logo.component.ts",
+        "src/app/shared/modal.component.ts",
+        "src/app/shared/status-pill.component.ts",
+        "src/environments/environment.ts",
+        "src/main.ts"
+      ],
+      "file_count": 28,
+      "loc": 1984,
+      "symbol_count": 60,
+      "integrations": [],
+      "endpoints": [],
+      "directory_prefix": "src",
+      "complexity_score": 40
+    },
+    {
+      "name": "api@functions",
+      "files": [
+        "functions/scripts/seed.ts",
+        "functions/scripts/set-perfil.ts",
+        "functions/src/app.ts",
+        "functions/src/dev-server.ts",
+        "functions/src/domain/regras.test.ts",
+        "functions/src/domain/regras.ts",
+        "functions/src/index.ts",
+        "functions/src/lib/auth.ts",
+        "functions/src/lib/db.ts",
+        "functions/src/lib/http.ts",
+        "functions/src/models/index.ts",
+        "functions/src/routes/cadastros.ts",
+        "functions/src/routes/estoque.ts",
+        "functions/src/routes/os.ts",
+        "functions/src/routes/painel.ts",
+        "functions/src/routes/usuarios.ts"
+      ],
+      "file_count": 16,
+      "loc": 837,
+      "symbol_count": 25,
+      "integrations": [
+        "express",
+        "mongo",
+        "jest"
+      ],
+      "endpoints": [
+        {
+          "method": "USE",
+          "path": "/api",
+          "file": "functions/src/app.ts"
+        }
+      ],
+      "directory_prefix": "functions",
+      "complexity_score": 31
+    },
+    {
+      "name": "src-misc",
+      "files": [
+        "src/app/pages/em-breve/em-breve.component.ts",
+        "src/environments/environment.prod.ts"
+      ],
+      "file_count": 2,
+      "directory_prefix": "src",
+      "loc": 30,
+      "symbol_count": 1,
+      "integrations": [],
+      "endpoints": [],
+      "complexity_score": 2
+    },
+    {
+      "name": "tailwind.config.js",
+      "files": [
+        "tailwind.config.js",
+        "tailwind.config.js"
+      ],
+      "file_count": 2,
+      "loc": 56,
+      "symbol_count": 0,
+      "integrations": [],
+      "endpoints": [],
+      "directory_prefix": "tailwind.config.js",
+      "complexity_score": 2
+    }
+  ]
+}

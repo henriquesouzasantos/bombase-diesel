@@ -2,7 +2,40 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Apontamento, Cliente, ItemOS, OrdemServico, Peca, StatusOS, Veiculo } from './models';
+import {
+  Apontamento, Cliente, ContaBancaria, ItemOS, Liquidez, Meio, OrdemServico, Peca, Perfil, StatusOS, TipoTransacao,
+  TransacaoFinanceira, UsuarioAdmin, Veiculo,
+} from './models';
+
+export interface FiltroExtrato {
+  tipo?: string;
+  status?: string;
+  contaId?: string;
+  de?: string;
+  ate?: string;
+  campo?: 'efetivacao' | 'vencimento';
+  busca?: string;
+}
+
+export interface NovoLancamento {
+  tipo: Exclude<TipoTransacao, 'ESTORNO'>;
+  descricao: string;
+  favorecido?: string;
+  valorBruto: number;
+  dataVencimento?: string;
+  contaId?: string;
+  meio?: Meio;
+  taxaBancaria?: number;
+}
+
+export interface Liquidacao {
+  contaId: string;
+  meio: Meio;
+  dataEfetivacao?: string;
+  desconto: number;
+  jurosMulta: number;
+  taxaBancaria: number;
+}
 
 export interface Painel {
   osAbertas: number;
@@ -49,6 +82,25 @@ export class ApiService {
   adicionarItem(id: string, pecaId: string, quantidade: number) { return this.post<OrdemServico>(`/os/${id}/itens`, { pecaId, quantidade }); }
   baixarItem(id: string, itemId: string) { return this.post<OrdemServico>(`/os/${id}/itens/${itemId}/baixa`, {}); }
   apontar(id: string, a: Omit<Apontamento, '_id' | 'horas'>) { return this.post<OrdemServico>(`/os/${id}/apontamentos`, a); }
+
+  /* Financeiro (Entrega 2) */
+  contas() { return this.get<ContaBancaria[]>('/financeiro/contas'); }
+  salvarConta(c: ContaBancaria) { return c._id ? this.put<ContaBancaria>('/financeiro/contas/' + c._id, c) : this.post<ContaBancaria>('/financeiro/contas', c); }
+  transacoes(f: FiltroExtrato = {}) {
+    const q = Object.entries(f).filter(([, v]) => v !== undefined && v !== '').map(([k, v]) => `${k}=${encodeURIComponent(String(v))}`).join('&');
+    return this.get<TransacaoFinanceira[]>('/financeiro/transacoes' + (q ? '?' + q : ''));
+  }
+  lancar(d: NovoLancamento) { return this.post<TransacaoFinanceira>('/financeiro/transacoes', d); }
+  liquidar(id: string, d: Liquidacao) { return this.post<TransacaoFinanceira>(`/financeiro/transacoes/${id}/liquidar`, d); }
+  estornar(id: string) { return this.post<TransacaoFinanceira>(`/financeiro/transacoes/${id}/estornar`, {}); }
+  cancelarTitulo(id: string) { return this.post<TransacaoFinanceira>(`/financeiro/transacoes/${id}/cancelar`, {}); }
+  conciliar(id: string) { return this.post<TransacaoFinanceira>(`/financeiro/transacoes/${id}/conciliar`, {}); }
+  liquidez() { return this.get<Liquidez>('/financeiro/liquidez'); }
+
+  /* Usuários (RNF02, só administrador) */
+  usuarios() { return this.get<UsuarioAdmin[]>('/usuarios'); }
+  criarUsuario(d: { email: string; nome: string; senha: string; perfil: Perfil }) { return this.post<UsuarioAdmin>('/usuarios', d); }
+  mudarPerfil(uid: string, perfil: Perfil) { return this.patch<{ uid: string; perfil: Perfil }>(`/usuarios/${uid}/perfil`, { perfil }); }
 }
 
 /** Extrai a mensagem de erro que a API devolve em { erro: string }. */

@@ -26,7 +26,21 @@ Projeto da disciplina ECOT11A – Engenharia de Software (UNIFEI).
 - Baixas de estoque em transação ACID no MongoDB (RNF01)
 - Rotina mensal de anonimização LGPD (RE01)
 
-Planejado para a Entrega 2: financeiro multi-bancário, liquidação RN02, liquidez D+1 e extrato. Os modelos `ContaBancaria` e `TransacaoFinanceira` e as funções `valorLiquido` e `hashRegistro` já estão prontos em `functions/src`.
+## Entrega 2 · Financeiro multi-bancário
+
+Menu **Financeiro** (gerente financeiro e administrador):
+
+- **Visão geral:** disponível hoje, projeção de liquidez D+1, fluxo dos próximos 7 dias e saldo por conta (RF16, RF17)
+- **A receber e a pagar:** títulos em aberto, vencidos e liquidação com desconto, juros/multa e taxa bancária (RF14, RF15, RN02)
+- **Extrato:** filtros por período, conta, tipo e situação, conciliação, estorno e exportação CSV (RF18–RF20)
+- **Contas bancárias:** bancos, caixa e PIX, com prazo de compensação e taxas padrão (RF10–RF12, RNF02.4)
+- **Lançamento avulso / PIX** que entra ou sai da conta na hora (RF13)
+- Faturar uma OS cria o título a receber do cliente, com vencimento pela condição de pagamento dele (RF09)
+- Nada é apagado: o estorno cria um lançamento inverso, e cada registro guarda um hash SHA-256 encadeado ao anterior (RN03, RNF02.2)
+
+Menu **Usuários** (só administrador): cria usuários e troca o perfil de acesso (RNF02).
+
+A API fica em `functions/src/routes/financeiro.ts` (`/api/financeiro/...`) e as regras puras em `functions/src/domain/regras.ts`.
 
 ## Estrutura
 
@@ -34,7 +48,7 @@ Planejado para a Entrega 2: financeiro multi-bancário, liquidação RN02, liqui
 ├── src/                     Angular (telas)
 │   ├── app/core/            autenticação, API, modelos, backend de demonstração
 │   ├── app/layout/          menu lateral e cabeçalho
-│   ├── app/pages/           landing, login, painel, clientes, veículos, estoque, os
+│   ├── app/pages/           landing, login, painel, clientes, veículos, estoque, os, financeiro, usuários
 │   └── environments/        configuração (modo demo, chaves do Firebase)
 ├── functions/               API (Cloud Functions + MongoDB)
 │   ├── src/models/          coleções do MongoDB

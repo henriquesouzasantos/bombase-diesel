@@ -130,10 +130,13 @@ export const ContaBancaria = model('ContaBancaria', ContaBancariaSchema, 'contas
 
 const TransacaoFinanceiraSchema = new Schema({
   tipo: { type: String, enum: ['RECEBER', 'PAGAR', 'AVULSO_ENTRADA', 'AVULSO_SAIDA', 'ESTORNO'], required: true },
+  natureza: { type: String, enum: ['ENTRADA', 'SAIDA'], required: true },
   status: { type: String, enum: ['PENDENTE', 'LIQUIDADO', 'CONCILIADO', 'CANCELADO'], default: 'PENDENTE' },
   contaId: { type: Types.ObjectId, ref: 'ContaBancaria' },
   osId: { type: Types.ObjectId, ref: 'OrdemServico' },
   favorecido: String,
+  descricao: String,
+  meio: { type: String, enum: ['PIX', 'BOLETO', 'CARTAO', 'TED', 'DINHEIRO'] },
   valorBruto: { type: Number, required: true },
   desconto: { type: Number, default: 0 },
   jurosMulta: { type: Number, default: 0 },
@@ -145,5 +148,8 @@ const TransacaoFinanceiraSchema = new Schema({
   estornoDe: { type: Types.ObjectId, ref: 'TransacaoFinanceira' },
   hash: String,          // RNF02.2: SHA-256 do registro
   hashAnterior: String,  // encadeia a trilha de auditoria
+  usuario: String,
 }, opts);
+TransacaoFinanceiraSchema.index({ status: 1, dataVencimento: 1 });
+TransacaoFinanceiraSchema.index({ dataEfetivacao: -1 });
 export const TransacaoFinanceira = model('TransacaoFinanceira', TransacaoFinanceiraSchema, 'transacoes');

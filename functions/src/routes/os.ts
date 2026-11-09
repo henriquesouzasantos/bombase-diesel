@@ -4,8 +4,8 @@ import { z } from 'zod';
 import { exigir } from '../lib/auth';
 import { transacao } from '../lib/db';
 import { HttpError, naoEncontrado, rota } from '../lib/http';
-import { Cliente, Contador, MovimentoEstoque, OrdemServico, Peca, STATUS_OS, Veiculo } from '../models';
-import { StatusOS, horasEntre, podeMudar, totalOS } from '../domain/regras';
+import { Cliente, Contador, MovimentoEstoque, OrdemServico, Peca, STATUS_OS, TransacaoFinanceira, Veiculo } from '../models';
+import { StatusOS, hashRegistro, horasEntre, podeMudar, prazoDias, totalOS } from '../domain/regras';
 
 export const os = Router();
 
@@ -65,13 +65,33 @@ os.patch('/:id/status', rota(async (req) => {
   o.status = status;
   if (status === 'EM_ANDAMENTO' && !o.tecnico && perfil === 'TECNICO') o.tecnico = req.usuario!.nome;
   if (status === 'CONCLUIDO') o.concluidaEm = new Date();
-  if (status === 'FATURADO') {
-    o.faturadaEm = new Date();
-    o.valorTotal = totalOS(o).total;
-    // Entrega 2 (RF09): aqui será criado o título a receber (TransacaoFinanceira PENDENTE) na mesma transação.
-  }
   o.historico.push({ status, por: req.usuario!.nome });
-  await o.save();
+  if (status !== 'FATURADO') {
+    await o.save();
+    return um(o);
+  }
+
+  // RF09: faturar cria o título a receber do cliente na mesma transação.
+  o.faturadaEm = new Date();
+  o.valorTotal = totalOS(o).total;
+  if (!o.valorTotal) {
+    await o.save();
+    return um(o);
+  }
+  await transacao(async (session) => {
+    const cliente = await Cliente.findById(o.clienteId, { nome: 1, condicoesPagamento: 1 }).session(session).lean();
+    const venc = new Date(o.faturadaEm!);
+    venc.setDate(venc.getDate() + prazoDias(cliente?.condicoesPagamento));
+    const [t] = await TransacaoFinanceira.create([{
+      tipo: 'RECEBER', natureza: 'ENTRADA', status: 'PENDENTE', osId: o._id, favorecido: cliente?.nome,
+      descricao: o.descricao, valorBruto: o.valorTotal, dataVencimento: venc, usuario: req.usuario!.email,
+    }], { session });
+    const ultimo = await TransacaoFinanceira.findOne({ hash: { $exists: true }, _id: { $ne: t!._id } }, { hash: 1 }).sort({ atualizadoEm: -1 }).session(session).lean();
+    t!.hashAnterior = ultimo?.hash ?? '';
+    t!.hash = hashRegistro({ id: String(t!._id), tipo: t!.tipo, natureza: t!.natureza, status: t!.status, contaId: null, valorBruto: t!.valorBruto, valorLiquido: null, dataEfetivacao: null }, t!.hashAnterior);
+    await t!.save({ session });
+    await o.save({ session });
+  });
   return um(o);
 }));
 

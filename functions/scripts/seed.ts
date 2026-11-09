@@ -5,12 +5,12 @@
  */
 import mongoose from 'mongoose';
 import { conectar } from '../src/lib/db';
-import { Cliente, Contador, MovimentoEstoque, OrdemServico, Peca, Veiculo } from '../src/models';
+import { Cliente, ContaBancaria, Contador, MovimentoEstoque, OrdemServico, Peca, TransacaoFinanceira, Veiculo } from '../src/models';
 import { precoVenda } from '../src/domain/regras';
 
 async function main() {
   await conectar();
-  const modelos: mongoose.Model<any>[] = [Cliente, Veiculo, Peca, OrdemServico, Contador, MovimentoEstoque];
+  const modelos: mongoose.Model<any>[] = [Cliente, Veiculo, Peca, OrdemServico, Contador, MovimentoEstoque, ContaBancaria, TransacaoFinanceira];
   await Promise.all(modelos.map((m) => m.deleteMany({})));
 
   const [sul, minas, rodolog] = await Cliente.create([
@@ -42,6 +42,20 @@ async function main() {
       apontamentos: [{ tecnico: 'J. Pereira', inicio: '08:10', fim: '10:40', horas: 2.5, valorHora: 180 }],
       historico: [{ status: 'ABERTO', por: 'seed' }, { status: 'EM_ANDAMENTO', por: 'seed' }] },
     { numero: 1030, veiculoId: actros._id, clienteId: minas._id, descricao: 'Troca do kit de embreagem', status: 'AGUARDANDO_PECAS', historico: [{ status: 'ABERTO', por: 'seed' }] },
+  ]);
+
+  // Financeiro: contas com saldo inicial e alguns títulos em aberto.
+  await ContaBancaria.create([
+    { nomeBanco: 'Banco do Brasil', agencia: '0412-7', numeroConta: '45.120-3', tipo: 'BANCO', saldoAtual: 48230.55, diasCompensacao: 1, taxasPadrao: { boleto: 2.9, cartaoPercentual: 2.49, pixPercentual: 0 } },
+    { nomeBanco: 'Sicoob Credivaz', agencia: '3092', numeroConta: '88.214-0', tipo: 'BANCO', saldoAtual: 21740.1, diasCompensacao: 2, taxasPadrao: { boleto: 1.95, cartaoPercentual: 2.2, pixPercentual: 0 } },
+    { nomeBanco: 'Caixa da oficina', tipo: 'CAIXA', saldoAtual: 1280, diasCompensacao: 0 },
+  ]);
+  const dia = (d: number) => { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(12, 0, 0, 0); return x; };
+  await TransacaoFinanceira.create([
+    { tipo: 'RECEBER', natureza: 'ENTRADA', favorecido: sul.nome, descricao: 'Calibração de bicos', valorBruto: 4365, dataVencimento: dia(1), usuario: 'seed' },
+    { tipo: 'RECEBER', natureza: 'ENTRADA', favorecido: rodolog.nome, descricao: 'Diagnóstico eletrônico', valorBruto: 980, dataVencimento: dia(-6), usuario: 'seed' },
+    { tipo: 'PAGAR', natureza: 'SAIDA', favorecido: 'MANN+HUMMEL', descricao: 'NF 7.310 · filtros', valorBruto: 2150, dataVencimento: dia(0), usuario: 'seed' },
+    { tipo: 'PAGAR', natureza: 'SAIDA', favorecido: 'Folha de pagamento', descricao: 'Salários do mês', valorBruto: 18400, dataVencimento: dia(5), usuario: 'seed' },
   ]);
   console.log('Dados de exemplo inseridos.');
   await mongoose.disconnect();

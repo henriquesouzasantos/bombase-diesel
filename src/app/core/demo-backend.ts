@@ -2,7 +2,8 @@ import { HttpErrorResponse, HttpInterceptorFn, HttpRequest, HttpResponse } from 
 import { Observable, delay, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
-  Cliente, OrdemServico, Peca, Perfil, StatusOS, TRANSICOES_OS, Veiculo, pendenciasRN01, precoVenda, totalOS,
+  Cliente, ContaBancaria, Liquidez, Meio, Natureza, OrdemServico, Peca, Perfil, StatusOS, TRANSICOES_OS, TransacaoFinanceira,
+  UsuarioAdmin, Veiculo, naturezaDe, pendenciasRN01, prazoDias, precoVenda, somarDiasUteis, totalOS, valorEfetivo,
 } from './models';
 
 /**
@@ -67,6 +68,84 @@ const ordens: OrdemServico[] = [
     apontamentos: [{ _id: 'a2', tecnico: 'J. Pereira', inicio: '13:00', fim: '17:00', horas: 4, valorHora: 180 }] }),
 ];
 
+/* ---------------- financeiro (Entrega 2) ---------------- */
+
+const diasFrente = (d: number, h = 12) => { const x = new Date(); x.setDate(x.getDate() + d); x.setHours(h, 0, 0, 0); return x.toISOString(); };
+
+const contas: ContaBancaria[] = [
+  { _id: 'b1', nomeBanco: 'Banco do Brasil', agencia: '0412-7', numeroConta: '45.120-3', tipo: 'BANCO', saldoAtual: 48230.55, ativa: true, diasCompensacao: 1, taxasPadrao: { boleto: 2.9, cartaoPercentual: 2.49, pixPercentual: 0 } },
+  { _id: 'b2', nomeBanco: 'Sicoob Credivaz', agencia: '3092', numeroConta: '88.214-0', tipo: 'BANCO', saldoAtual: 21740.1, ativa: true, diasCompensacao: 2, taxasPadrao: { boleto: 1.95, cartaoPercentual: 2.2, pixPercentual: 0 } },
+  { _id: 'b3', nomeBanco: 'Inter PJ (PIX)', tipo: 'PIX_PJ', saldoAtual: 9310, ativa: true, diasCompensacao: 0, taxasPadrao: { boleto: 0, cartaoPercentual: 0, pixPercentual: 0 } },
+  { _id: 'b4', nomeBanco: 'Caixa da oficina', tipo: 'CAIXA', saldoAtual: 1280, ativa: true, diasCompensacao: 0, taxasPadrao: { boleto: 0, cartaoPercentual: 0, pixPercentual: 0 } },
+];
+
+function tr(n: number, t: Partial<TransacaoFinanceira> & Pick<TransacaoFinanceira, 'tipo' | 'valorBruto'>): TransacaoFinanceira {
+  const natureza: Natureza = t.natureza ?? naturezaDe(t.tipo as Exclude<typeof t.tipo, 'ESTORNO'>);
+  return { _id: 't' + n, natureza, status: 'PENDENTE', desconto: 0, jurosMulta: 0, taxaBancaria: 0, criadoEm: diasAtras(30), usuario: 'financeiro@demo', ...t };
+}
+
+const transacoes: TransacaoFinanceira[] = [
+  tr(1, { tipo: 'RECEBER', status: 'LIQUIDADO', osId: 'o1021', favorecido: 'Transportes Sul Ltda', descricao: 'OS #1021', valorBruto: 720, valorLiquido: 717.1, taxaBancaria: 2.9, contaId: 'b1', meio: 'BOLETO', dataVencimento: diasAtras(7), dataEfetivacao: diasAtras(7), dataCompensacao: diasAtras(6) }),
+  tr(2, { tipo: 'RECEBER', status: 'LIQUIDADO', favorecido: 'Frota Minas Logística', descricao: 'OS #1012 · revisão de bomba', valorBruto: 6200, desconto: 150, jurosMulta: 128.09, taxaBancaria: 2.9, valorLiquido: 6175.19, contaId: 'b1', meio: 'BOLETO', dataVencimento: diasAtras(3), dataEfetivacao: diasAtras(1), dataCompensacao: diasFrente(0, 23) }),
+  tr(3, { tipo: 'RECEBER', status: 'LIQUIDADO', favorecido: 'Rodolog Cargas Ltda', descricao: 'OS #1015 · cartão', valorBruto: 3480, taxaBancaria: 76.56, valorLiquido: 3403.44, contaId: 'b2', meio: 'CARTAO', dataVencimento: diasAtras(0), dataEfetivacao: diasAtras(0), dataCompensacao: somarDiasUteis(new Date(), 2).toISOString() }),
+  tr(4, { tipo: 'AVULSO_ENTRADA', status: 'CONCILIADO', favorecido: 'Carlos Eduardo Ramos', descricao: 'Calibração avulsa (PIX)', valorBruto: 450, valorLiquido: 450, contaId: 'b3', meio: 'PIX', dataEfetivacao: diasAtras(4), dataCompensacao: diasAtras(4) }),
+  tr(5, { tipo: 'PAGAR', status: 'LIQUIDADO', favorecido: 'Bosch Distribuidora', descricao: 'NF 18.442 · bicos injetores', valorBruto: 8700, valorLiquido: 8700, contaId: 'b1', meio: 'TED', dataVencimento: diasAtras(5), dataEfetivacao: diasAtras(5), dataCompensacao: diasAtras(5) }),
+  tr(6, { tipo: 'AVULSO_SAIDA', status: 'LIQUIDADO', favorecido: 'Cemig', descricao: 'Energia elétrica outubro', valorBruto: 1890.4, valorLiquido: 1890.4, contaId: 'b2', meio: 'BOLETO', dataEfetivacao: diasAtras(2), dataCompensacao: diasAtras(2) }),
+  tr(7, { tipo: 'RECEBER', favorecido: 'Transportes Sul Ltda', descricao: 'OS #1018 · troca de bicos', valorBruto: 4365, dataVencimento: diasFrente(1) }),
+  tr(8, { tipo: 'RECEBER', favorecido: 'Frota Minas Logística', descricao: 'OS #1019 · embreagem', valorBruto: 7920, dataVencimento: diasFrente(4) }),
+  tr(9, { tipo: 'RECEBER', favorecido: 'Rodolog Cargas Ltda', descricao: 'OS #1016 · diagnóstico eletrônico', valorBruto: 980, dataVencimento: diasAtras(6) }),
+  tr(10, { tipo: 'PAGAR', favorecido: 'MANN+HUMMEL', descricao: 'NF 7.310 · filtros', valorBruto: 2150, dataVencimento: diasFrente(0) }),
+  tr(11, { tipo: 'PAGAR', favorecido: 'Folha de pagamento', descricao: 'Salários novembro', valorBruto: 18400, dataVencimento: diasFrente(5) }),
+  tr(12, { tipo: 'PAGAR', favorecido: 'Aluguel do galpão', descricao: 'Aluguel novembro', valorBruto: 6500, dataVencimento: diasAtras(1) }),
+];
+
+const usuariosDemo: UsuarioAdmin[] = [
+  { uid: 'u1', email: 'admin@bombase.com.br', nome: 'Administrador', perfil: 'ADMIN' },
+  { uid: 'u2', email: 'financeiro@bombase.com.br', nome: 'Ana Souza', perfil: 'GERENTE_FINANCEIRO' },
+  { uid: 'u3', email: 'recepcao@bombase.com.br', nome: 'Paula Lima', perfil: 'RECEPCAO' },
+  { uid: 'u4', email: 'jpereira@bombase.com.br', nome: 'J. Pereira', perfil: 'TECNICO' },
+  { uid: 'u5', email: 'malves@bombase.com.br', nome: 'M. Alves', perfil: 'TECNICO' },
+  { uid: 'u6', email: 'estagio@bombase.com.br', nome: 'Estagiário 2025', perfil: null, desativado: true },
+];
+
+const PERFIS_VALIDOS: Perfil[] = ['ADMIN', 'GERENTE_FINANCEIRO', 'RECEPCAO', 'TECNICO'];
+const MEIOS_VALIDOS: Meio[] = ['PIX', 'BOLETO', 'CARTAO', 'TED', 'DINHEIRO'];
+const cent = (v: number) => Math.round(v * 100) / 100;
+const compensa = (natureza: Natureza, meio: Meio | undefined, efetivacao: Date, diasConta: number) =>
+  natureza === 'SAIDA' || meio === 'PIX' || meio === 'DINHEIRO' ? efetivacao : somarDiasUteis(efetivacao, diasConta);
+const chaveDia = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+/** Mesma conta de functions/src/domain/regras.ts → calcularLiquidez. */
+function liquidez(): Liquidez {
+  const agora = new Date();
+  const hoje = new Date(agora); hoje.setHours(0, 0, 0, 0);
+  const d1 = somarDiasUteis(agora, 1); d1.setHours(0, 0, 0, 0);
+  const aCompensar = transacoes.filter((t) => (t.status === 'LIQUIDADO' || t.status === 'CONCILIADO') && t.natureza === 'ENTRADA' && t.dataCompensacao && new Date(t.dataCompensacao) > agora);
+  const pendentes = transacoes.filter((t) => t.status === 'PENDENTE' && t.dataVencimento);
+  const porConta = contas.filter((c) => c.ativa).map((c) => {
+    const comp = cent(aCompensar.filter((t) => t.contaId === c._id).reduce((s, t) => s + (t.valorLiquido ?? 0), 0));
+    return { contaId: c._id!, nomeBanco: c.nomeBanco, saldoAtual: cent(c.saldoAtual), aCompensar: comp, disponivel: cent(c.saldoAtual - comp) };
+  });
+  const disponivelHoje = cent(porConta.reduce((s, c) => s + c.disponivel, 0));
+  const vencidos = { receber: 0, pagar: 0 };
+  for (const t of pendentes) if (new Date(t.dataVencimento!) < hoje) vencidos[t.natureza === 'ENTRADA' ? 'receber' : 'pagar'] += t.valorBruto;
+  const dias: Liquidez['dias'] = [];
+  let saldo = disponivelHoje;
+  let projecaoD1 = disponivelHoje;
+  for (let i = 0; i < 7; i++) {
+    const dia = new Date(hoje); dia.setDate(hoje.getDate() + i);
+    const k = chaveDia(dia);
+    const doDia = (d?: string) => !!d && chaveDia(new Date(d)) === k;
+    const entradas = cent(aCompensar.filter((t) => doDia(t.dataCompensacao)).reduce((s, t) => s + (t.valorLiquido ?? 0), 0)
+      + pendentes.filter((t) => t.natureza === 'ENTRADA' && doDia(t.dataVencimento)).reduce((s, t) => s + t.valorBruto, 0));
+    const saidas = cent(pendentes.filter((t) => t.natureza === 'SAIDA' && (doDia(t.dataVencimento) || (i === 0 && new Date(t.dataVencimento!) < hoje))).reduce((s, t) => s + t.valorBruto, 0));
+    saldo = cent(saldo + entradas - saidas);
+    dias.push({ data: k, entradas, saidas, saldo });
+    if (dia <= d1) projecaoD1 = saldo;
+  }
+  return { hoje: chaveDia(hoje), d1: chaveDia(d1), contas: porConta, disponivelHoje, projecaoD1, vencidos: { receber: cent(vencidos.receber), pagar: cent(vencidos.pagar) }, dias };
+}
+
 /* ---------------- helpers ---------------- */
 
 class Erro { constructor(public status: number, public erro: string) {} }
@@ -77,6 +156,8 @@ const PODE: Record<string, Perfil[]> = {
   abrirOS: ['RECEPCAO'],
   operarOS: ['RECEPCAO', 'TECNICO'],
   faturar: ['RECEPCAO', 'GERENTE_FINANCEIRO'],
+  financeiro: ['GERENTE_FINANCEIRO'],
+  admin: [],
 };
 
 function exigir(perfil: Perfil, acao: keyof typeof PODE) {
@@ -180,7 +261,15 @@ function rota(req: HttpRequest<any>, perfil: Perfil): unknown {
       }
       o.status = novo;
       if (novo === 'CONCLUIDO') o.concluidaEm = agora();
-      if (novo === 'FATURADO') o.faturadaEm = agora();
+      if (novo === 'FATURADO') {
+        o.faturadaEm = agora();
+        // RF09: faturar cria o título a receber do cliente.
+        const cli = clientes.find((c) => c._id === o.clienteId);
+        const venc = new Date(); venc.setDate(venc.getDate() + prazoDias(cli?.condicoesPagamento)); venc.setHours(12, 0, 0, 0);
+        const total = totalOS(o).total;
+        if (total > 0) transacoes.push({ _id: id(), tipo: 'RECEBER', natureza: 'ENTRADA', status: 'PENDENTE', osId: o._id, favorecido: cli?.nome, descricao: o.descricao,
+          valorBruto: total, desconto: 0, jurosMulta: 0, taxaBancaria: 0, dataVencimento: venc.toISOString(), criadoEm: agora(), usuario: perfil });
+      }
       o.historico.push({ status: novo, em: agora(), por: perfil });
       return enriquecer(o);
     }
@@ -211,6 +300,139 @@ function rota(req: HttpRequest<any>, perfil: Perfil): unknown {
       return enriquecer(o);
     }
   }
+  if (p[0] === 'financeiro') {
+    exigir(perfil, 'financeiro');
+    const enr = (t: TransacaoFinanceira): TransacaoFinanceira => ({
+      ...t, contaNome: contas.find((c) => c._id === t.contaId)?.nomeBanco, osNumero: ordens.find((o) => o._id === t.osId)?.numero,
+    });
+    const saldo = (contaId: string | undefined, natureza: Natureza, v: number) => {
+      const c = achar(contas, contaId!, 'Conta');
+      c.saldoAtual = cent(c.saldoAtual + (natureza === 'ENTRADA' ? v : -v));
+    };
+
+    if (p[1] === 'liquidez') return liquidez();
+
+    if (p[1] === 'contas') {
+      if (m === 'GET') return [...contas].sort((a, z) => Number(z.ativa) - Number(a.ativa) || a.nomeBanco.localeCompare(z.nomeBanco));
+      if (!b.nomeBanco || String(b.nomeBanco).trim().length < 2) throw new Erro(400, 'Informe o nome do banco ou da conta.');
+      const dados = {
+        nomeBanco: String(b.nomeBanco).trim(), agencia: b.agencia, numeroConta: b.numeroConta, tipo: b.tipo ?? 'BANCO', ativa: b.ativa !== false,
+        diasCompensacao: Math.max(0, Math.round(+b.diasCompensacao || 0)),
+        taxasPadrao: { boleto: +b.taxasPadrao?.boleto || 0, cartaoPercentual: +b.taxasPadrao?.cartaoPercentual || 0, pixPercentual: +b.taxasPadrao?.pixPercentual || 0 },
+      };
+      if (m === 'POST') { const c = { ...dados, _id: id(), saldoAtual: cent(+b.saldoAtual || 0) } as ContaBancaria; contas.push(c); return c; }
+      if (m === 'PUT') { const c = achar(contas, p[2], 'Conta'); Object.assign(c, dados); return c; }
+    }
+
+    if (p[1] === 'transacoes') {
+      const q = url.searchParams;
+      if (m === 'GET') {
+        const tipos = q.get('tipo')?.split(',');
+        const sts = q.get('status')?.split(',');
+        const conta = q.get('contaId');
+        const campo = q.get('campo') === 'vencimento' ? 'dataVencimento' : 'dataEfetivacao';
+        const de = q.get('de') ? new Date(q.get('de') + 'T00:00:00') : null;
+        const ate = q.get('ate') ? new Date(q.get('ate') + 'T23:59:59.999') : null;
+        const bq = (q.get('busca') ?? '').trim().toLowerCase();
+        return transacoes
+          .filter((t) => (!tipos || tipos.includes(t.tipo)) && (!sts || sts.includes(t.status)) && (!conta || t.contaId === conta))
+          .filter((t) => { if (!de && !ate) return true; const d = t[campo]; if (!d) return false; const x = new Date(d); return (!de || x >= de) && (!ate || x <= ate); })
+          .filter((t) => !bq || `${t.favorecido ?? ''} ${t.descricao ?? ''}`.toLowerCase().includes(bq))
+          .sort((a, z) => String(z[campo] ?? '').localeCompare(String(a[campo] ?? '')))
+          .map(enr);
+      }
+      if (m === 'POST' && !p[2]) {
+        const tipo = b.tipo as TransacaoFinanceira['tipo'];
+        if (!['RECEBER', 'PAGAR', 'AVULSO_ENTRADA', 'AVULSO_SAIDA'].includes(tipo)) throw new Erro(400, 'Tipo de lançamento inválido.');
+        if (!b.descricao || String(b.descricao).trim().length < 3) throw new Erro(400, 'Descreva o lançamento.');
+        const bruto = +b.valorBruto;
+        if (!(bruto > 0)) throw new Erro(400, 'O valor precisa ser maior que zero.');
+        if (b.meio && !MEIOS_VALIDOS.includes(b.meio)) throw new Erro(400, 'Meio de pagamento inválido.');
+        const natureza = naturezaDe(tipo as Exclude<typeof tipo, 'ESTORNO'>);
+        const base: TransacaoFinanceira = { _id: id(), tipo, natureza, status: 'PENDENTE', descricao: String(b.descricao).trim(), favorecido: b.favorecido, meio: b.meio,
+          valorBruto: cent(bruto), desconto: 0, jurosMulta: 0, taxaBancaria: 0, criadoEm: agora(), usuario: perfil };
+        if (tipo === 'RECEBER' || tipo === 'PAGAR') {
+          if (!b.dataVencimento) throw new Erro(400, 'Informe o vencimento.');
+          const t = { ...base, dataVencimento: b.dataVencimento };
+          transacoes.push(t);
+          return enr(t);
+        }
+        if (!b.contaId) throw new Erro(400, 'Escolha a conta do lançamento.');
+        const c = achar(contas, b.contaId, 'Conta');
+        if (!c.ativa) throw new Erro(422, 'Esta conta está inativa.');
+        const taxa = +b.taxaBancaria || 0;
+        const valor = valorEfetivo(natureza, bruto, 0, 0, taxa);
+        if (valor <= 0) throw new Erro(422, 'O valor líquido precisa ser maior que zero.');
+        const ag = new Date();
+        const t = { ...base, status: 'LIQUIDADO' as const, contaId: c._id, taxaBancaria: taxa, valorLiquido: valor, dataEfetivacao: ag.toISOString(), dataCompensacao: compensa(natureza, b.meio, ag, c.diasCompensacao).toISOString() };
+        saldo(c._id, natureza, valor);
+        transacoes.push(t);
+        return enr(t);
+      }
+      const t = achar(transacoes, p[2], 'Lançamento');
+      if (p[3] === 'liquidar') {
+        if (t.status !== 'PENDENTE') throw new Erro(409, 'Este título já foi liquidado ou cancelado.');
+        const c = achar(contas, b.contaId, 'Conta');
+        if (!c.ativa) throw new Erro(422, 'Esta conta está inativa.');
+        if (!MEIOS_VALIDOS.includes(b.meio)) throw new Erro(400, 'Escolha o meio de pagamento.');
+        const [desc, juros, taxa] = [+b.desconto || 0, +b.jurosMulta || 0, +b.taxaBancaria || 0];
+        if (desc < 0 || juros < 0 || taxa < 0) throw new Erro(400, 'Valores não podem ser negativos.');
+        const valor = valorEfetivo(t.natureza, t.valorBruto, desc, juros, taxa);
+        if (valor <= 0) throw new Erro(422, 'O valor líquido precisa ser maior que zero.');
+        const ef = b.dataEfetivacao ? new Date(b.dataEfetivacao) : new Date();
+        Object.assign(t, { contaId: c._id, meio: b.meio, desconto: desc, jurosMulta: juros, taxaBancaria: taxa, valorLiquido: valor, status: 'LIQUIDADO',
+          dataEfetivacao: ef.toISOString(), dataCompensacao: compensa(t.natureza, b.meio, ef, c.diasCompensacao).toISOString(), usuario: perfil });
+        saldo(c._id, t.natureza, valor);
+        return enr(t);
+      }
+      if (p[3] === 'estornar') {
+        if (t.status !== 'LIQUIDADO' && t.status !== 'CONCILIADO') throw new Erro(409, 'Só lançamentos liquidados podem ser estornados.');
+        if (t.tipo === 'ESTORNO') throw new Erro(409, 'Um estorno não pode ser estornado.');
+        const natureza: Natureza = t.natureza === 'ENTRADA' ? 'SAIDA' : 'ENTRADA';
+        const v = t.valorLiquido ?? 0;
+        const est: TransacaoFinanceira = { _id: id(), tipo: 'ESTORNO', natureza, status: 'LIQUIDADO', contaId: t.contaId, osId: t.osId, favorecido: t.favorecido,
+          descricao: `Estorno: ${t.descricao ?? t.tipo}`, valorBruto: v, valorLiquido: v, desconto: 0, jurosMulta: 0, taxaBancaria: 0,
+          dataEfetivacao: agora(), dataCompensacao: agora(), estornoDe: t._id, criadoEm: agora(), usuario: perfil };
+        t.status = 'CANCELADO';
+        saldo(t.contaId, natureza, v);
+        transacoes.push(est);
+        return enr(est);
+      }
+      if (p[3] === 'cancelar') {
+        if (t.status !== 'PENDENTE') throw new Erro(409, 'Só títulos pendentes podem ser cancelados. Use o estorno.');
+        t.status = 'CANCELADO';
+        return enr(t);
+      }
+      if (p[3] === 'conciliar') {
+        if (t.status !== 'LIQUIDADO') throw new Erro(409, 'Só lançamentos liquidados podem ser conciliados.');
+        t.status = 'CONCILIADO';
+        return enr(t);
+      }
+    }
+  }
+
+  if (p[0] === 'usuarios') {
+    exigir(perfil, 'admin');
+    if (m === 'GET') return usuariosDemo;
+    if (m === 'POST') {
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(b.email ?? '')) throw new Erro(400, 'email: Invalid email');
+      if (!b.nome || String(b.nome).trim().length < 2) throw new Erro(400, 'nome: informe o nome.');
+      if (!b.senha || String(b.senha).length < 8) throw new Erro(400, 'senha: mínimo de 8 caracteres.');
+      if (!PERFIS_VALIDOS.includes(b.perfil)) throw new Erro(400, 'perfil: perfil inválido.');
+      if (usuariosDemo.some((u) => u.email === b.email)) throw new Erro(409, 'Já existe um usuário com este e-mail.');
+      const u: UsuarioAdmin = { uid: id(), email: b.email, nome: String(b.nome).trim(), perfil: b.perfil };
+      usuariosDemo.push(u);
+      return u;
+    }
+    if (m === 'PATCH' && p[2] === 'perfil') {
+      if (!PERFIS_VALIDOS.includes(b.perfil)) throw new Erro(400, 'perfil: perfil inválido.');
+      const u = usuariosDemo.find((x) => x.uid === p[1]);
+      if (!u) throw new Erro(404, 'Usuário não encontrado.');
+      u.perfil = b.perfil;
+      return { uid: u.uid, perfil: u.perfil };
+    }
+  }
+
   throw new Erro(404, 'Rota não encontrada.');
 }
 

@@ -5,6 +5,7 @@ import { conectar } from './lib/db';
 import { tratarErros } from './lib/http';
 import { clientes, veiculos } from './routes/cadastros';
 import { pecas } from './routes/estoque';
+import { financeiro } from './routes/financeiro';
 import { os } from './routes/os';
 import { painel } from './routes/painel';
 import { usuarios } from './routes/usuarios';
@@ -25,6 +26,7 @@ export function criarApp() {
   api.use('/veiculos', veiculos);
   api.use('/pecas', pecas);
   api.use('/os', os);
+  api.use('/financeiro', financeiro);
   api.use('/usuarios', usuarios);
   api.use((_req, res) => { res.status(404).json({ erro: 'Rota não encontrada.' }); });
 

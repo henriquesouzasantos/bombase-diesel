@@ -17,6 +17,15 @@ const PATHS: Record<string, string> = {
   seta: 'M5 12h14M12 5l7 7-7 7',
   voltar: 'M19 12H5M12 19l-7-7 7-7',
   editar: 'M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z',
+  banco: 'M3 10h18M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18M12 3l9 5H3z',
+  lista: 'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',
+  entrada: 'M12 19V5M5 12l7 7 7-7',
+  saida: 'M12 5v14M5 12l7-7 7 7',
+  download: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
+  cadeado: 'M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4',
+  calendario: 'M3 5h18v16H3zM16 3v4M8 3v4M3 10h18',
+  desfazer: 'M3 7v6h6M3 13a9 9 0 1 0 3-7.7L3 7',
+  escudo: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
 };
 
 @Component({

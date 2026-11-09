@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards';
+import { authGuard, perfilGuard } from './core/guards';
 
 export const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/landing/landing.component').then((m) => m.LandingComponent), title: 'Bombase Diesel' },
@@ -17,7 +17,18 @@ export const routes: Routes = [
       { path: 'estoque', loadComponent: () => import('./pages/estoque/estoque.component').then((m) => m.EstoqueComponent), title: 'Estoque · Bombase' },
       { path: 'os', loadComponent: () => import('./pages/os/os-quadro.component').then((m) => m.OsQuadroComponent), title: 'Ordens de serviço · Bombase' },
       { path: 'os/:id', loadComponent: () => import('./pages/os/os-detalhe.component').then((m) => m.OsDetalheComponent), title: 'OS · Bombase' },
-      { path: 'financeiro', loadComponent: () => import('./pages/em-breve/em-breve.component').then((m) => m.EmBreveComponent), title: 'Financeiro · Bombase', data: { modulo: 'Financeiro multi-bancário', entrega: 'Entrega 2 · Sprints 3 e 4', itens: ['Contas bancárias e saldo em tempo real (RF10–RF12)', 'Lançamentos avulsos e PIX (RF13)', 'Liquidação com juros, descontos e taxas (RF14, RF15, RN02)', 'Liquidez D+1 (RF16, RF17)', 'Extrato geral com filtros (RF18–RF20)'] } },
+      {
+        path: 'financeiro',
+        canActivate: [perfilGuard('GERENTE_FINANCEIRO')],
+        loadComponent: () => import('./pages/financeiro/financeiro-layout.component').then((m) => m.FinanceiroLayoutComponent),
+        children: [
+          { path: '', loadComponent: () => import('./pages/financeiro/financeiro-visao.component').then((m) => m.FinanceiroVisaoComponent), title: 'Financeiro · Bombase' },
+          { path: 'titulos', loadComponent: () => import('./pages/financeiro/financeiro-titulos.component').then((m) => m.FinanceiroTitulosComponent), title: 'A receber e a pagar · Bombase' },
+          { path: 'extrato', loadComponent: () => import('./pages/financeiro/financeiro-extrato.component').then((m) => m.FinanceiroExtratoComponent), title: 'Extrato · Bombase' },
+          { path: 'contas', loadComponent: () => import('./pages/financeiro/financeiro-contas.component').then((m) => m.FinanceiroContasComponent), title: 'Contas bancárias · Bombase' },
+        ],
+      },
+      { path: 'usuarios', canActivate: [perfilGuard()], loadComponent: () => import('./pages/usuarios/usuarios.component').then((m) => m.UsuariosComponent), title: 'Usuários · Bombase' },
     ],
   },
   { path: '**', redirectTo: '' },
